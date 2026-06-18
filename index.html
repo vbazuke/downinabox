@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>YouTube Multitrack</title>
+<style>
+.player-container {
+    margin-bottom: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>YouTube Multitrack</h2>
+
+<button onclick="playAll()">Play All</button>
+<button onclick="pauseAll()">Pause All</button>
+
+<hr>
+
+<div class="player-container">
+    <div id="player1"></div>
+    <br>
+    <button onclick="toggleMute(0)">Mute/Unmute</button>
+</div>
+
+<div class="player-container">
+    <div id="player2"></div>
+    <br>
+    <button onclick="toggleMute(1)">Mute/Unmute</button>
+</div>
+
+<div class="player-container">
+    <div id="player3"></div>
+    <br>
+    <button onclick="toggleMute(2)">Mute/Unmute</button>
+</div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+
+<script>
+
+let players = [];
+let readyCount = 0;
+
+function onPlayerReady() {
+    readyCount++;
+    console.log("Player pronto:", readyCount);
+}
+
+function onYouTubeIframeAPIReady() {
+
+    players[0] = new YT.Player('player1', {
+        width: 560,
+        height: 315,
+        videoId: 'kvJOWG4lXnE',
+        events: {
+            onReady: onPlayerReady
+        }
+    });
+
+    players[1] = new YT.Player('player2', {
+        width: 560,
+        height: 315,
+        videoId: '7BxcXThilr4',
+        events: {
+            onReady: onPlayerReady
+        }
+    });
+
+    players[2] = new YT.Player('player3', {
+        width: 560,
+        height: 315,
+        videoId: 'yl2DCKW00lw',
+        events: {
+            onReady: onPlayerReady
+        }
+    });
+}
+
+function playAll() {
+
+    if (readyCount < 3) {
+        alert("Aguarde os vídeos carregarem.");
+        return;
+    }
+
+    players.forEach(player => {
+        player.playVideo();
+    });
+}
+
+function pauseAll() {
+    players.forEach(player => {
+        player.pauseVideo();
+    });
+}
+
+function toggleMute(index) {
+
+    const player = players[index];
+
+    if (player.isMuted()) {
+        player.unMute();
+    } else {
+        player.mute();
+    }
+}
+
+</script>
+
+</body>
+</html>
